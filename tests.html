@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Dynamic Quiz</title>
+    <title>UPC Exams Portal</title>
+    <meta name="description" content="UPC Exams Portal">
     <style>
       :root {
         --primary-color: #4a6bff;
@@ -225,7 +226,7 @@
   <body>
     <div class="card">
       <div class="form-header">
-        <h2>UPC Exams</h2>
+        <h2>UPC Exams Portal</h2>
         <p id="paragraph">Test your knowledge!</p>
       </div>
 
@@ -421,6 +422,17 @@
           seconds--;
         }, 1000);
       }
+      document.addEventListener('keydown', function(e) {
+    if (
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+        (e.ctrlKey && e.key.toLowerCase() === 'u') || (e.ctrlKey && e.key.toLowerCase() === 's')
+    ) {
+        e.preventDefault();
+        return false;
+    }
+    });
+    document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
   </body>
 </html>
