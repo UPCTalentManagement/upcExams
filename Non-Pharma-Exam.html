@@ -1,0 +1,1092 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>UPC Exams Portal</title>
+    <meta name="description" content="UPC Exams Portal">
+    <style>
+      :root {
+        --primary-color: #4a6bff;
+        --secondary-color: #f8f9fa;
+        --accent-color: #030303;
+        --text-color: #333;
+        --light-text: #6c757d;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: #f5f7ff;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+      }
+
+      button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #3a5bef;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #timerDisplay {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding: 10px;
+        background-color: #fff8f8;
+        border-radius: var(--border-radius);
+        color: var(--accent-color);
+        font-weight: bold;
+        border: 1px solid #ffdddd;
+      }
+
+      .question-block {
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--secondary-color);
+        border-radius: var(--border-radius);
+      }
+
+      .question-block p {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      label {
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: 8px;
+        background: white;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border: 1px solid #eee;
+      }
+
+      label:hover {
+        background-color: #f0f4ff;
+        border-color: var(--primary-color);
+      }
+
+      input[type="radio"] {
+        margin-right: 10px;
+      }
+
+      .option-image {
+        max-width: 100%;
+        max-height: 300px;
+        height: auto;
+        border-radius: var(--border-radius);
+        margin-top: 8px;
+        display: block;
+      }
+
+      .image-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+      }
+
+      .image-label input[type="radio"] {
+        margin-bottom: 8px;
+      }
+
+      #scoreMsg {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border-radius: var(--border-radius);
+        color: #2e7d32;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      #loading {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #fff3cd;
+        border-radius: var(--border-radius);
+        color: #664d03;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      .loader {
+        width: 15px;
+        height: 15px;
+        border: 3px solid #664d03;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-header p {
+        color: var(--light-text);
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="form-header">
+        <h2>UPC Exams Portal</h2>
+        <p id="paragraph">Test your knowledge</p>
+      </div>
+
+      <form id="EmailForm">
+        <input type="text" name="name" placeholder="الاسم بالكامل" required />
+        <input type="email" name="email" placeholder="ايميل المتحدة الرسمى" required />
+        <input type="text" name="mobile" placeholder="رقم الهاتف المحمول" required />
+
+        <select name="title" id="titleSelect" required>
+          <option value="">Loading titles...</option>
+        </select>
+
+        <button type="submit">Start Quiz</button>
+      </form>
+
+      <form id="quizForm" class="hidden">
+        <p id="timerDisplay"></p>
+        <div id="quizContainer"></div>
+        <button type="submit">Submit Answers</button>
+      </form>
+
+      <p id="scoreMsg"></p>
+      <p id="loading" class="hidden">
+        <span class="loader"></span>
+        Submitting your answers...
+      </p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const titleSelect = document.getElementById("titleSelect");
+        const sheetURL =
+          "https://opensheet.elk.sh/160YyEbJmn-JLBDcJIqqmPzXLfEy5lAVK9rozPwY_0pw/Titles";
+
+        fetch(sheetURL)
+          .then((response) => response.json())
+          .then((data) => {
+            titleSelect.innerHTML = '<option value="">Select Title</option>';
+
+            data
+              .filter(
+                (row) => row.Status && row.Status.toLowerCase() === "active"
+              )
+              .forEach((row) => {
+                const option = document.createElement("option");
+                option.value = row.Title;
+                option.textContent = row.Title;
+                titleSelect.appendChild(option);
+              });
+          })
+          .catch((error) => {
+            console.error("Error fetching titles:", error);
+            titleSelect.innerHTML =
+              '<option value="">Failed to load titles</option>';
+          });
+      });
+
+      const Quiz_Questions =
+        "https://opensheet.elk.sh/160YyEbJmn-JLBDcJIqqmPzXLfEy5lAVK9rozPwY_0pw/";
+      const Quiz_Images =
+        "https://opensheet.elk.sh/1I955xVeNXE475qNgCawo5myxavEAy3rWce26H7iFfZI/";
+      const endpoint = "https://script.google.com/macros/s/AKfycbwsONdg4FsVwj5G_YBo6VpIsVB7gEb2NZGiDtncR1bHAqB7zWGPhyGLPPFP3mG7EbUA/exec";
+      
+      let questions = [];
+      let timerMinutes = 50;
+      let title = "";
+      let quizStartTime;
+
+      function convertDriveLink(url) {
+        if (!url || url === "." || url.trim() === "") return null;
+        
+        // Extract file ID from Google Drive URL
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+          const fileId = match[1];
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
+        }
+        
+        return null;
+      }
+
+      async function loadQuestions(selectedTitle) {
+        // // Load text questions
+        // const res = await fetch(`${Quiz_Questions}${selectedTitle}`);
+        // questions = await res.json();
+        // timerMinutes = parseInt(questions[0].Timer) || 50;
+        
+        // // Try to load image questions
+        // let imageQuestions = [];
+        // try {
+        //   const imageRes = await fetch(`${Quiz_Images}${selectedTitle}`);
+        //   if (imageRes.ok) {
+        //     imageQuestions = await imageRes.json();
+        //     console.log("Image questions loaded:", imageQuestions);
+        //   }
+        // } catch (error) {
+        //   console.log("No image sheet found for this title, using text only");
+        // }
+
+          // Load text questions (works fine with non-breaking spaces)
+        const res = await fetch(`${Quiz_Questions}${selectedTitle}`);
+        questions = await res.json();
+        timerMinutes = parseInt(questions[0].Timer) || 50;
+        
+        // Try to load image questions - normalize title for this API
+        let imageQuestions = [];
+        try {
+          // Replace non-breaking spaces with regular spaces for the images API
+          const normalizedTitle = selectedTitle.replace(/\u00A0/g, ' ').replace(/\s+/g, ' ').trim();
+          const imageRes = await fetch(`${Quiz_Images}${normalizedTitle}`);
+          if (imageRes.ok) {
+            imageQuestions = await imageRes.json();
+            console.log("Image questions loaded:", imageQuestions);
+          }
+        } catch (error) {
+          console.log("No image sheet found for this title, using text only:", error);
+        }
+        const container = document.getElementById("quizContainer");
+        container.innerHTML = ""; // Clear previous content
+        
+        questions.forEach((q, i) => {
+          if (q.Question && q.Question.trim().length >= 3) {
+            let optsHTML = "";
+            
+            // Check if this specific question has images
+            const hasImagesForThisQuestion = imageQuestions[i] && 
+                                            imageQuestions[i].has_images && 
+                                            imageQuestions[i].has_images.toLowerCase() === "yes";
+            
+            if (hasImagesForThisQuestion) {
+              console.log(`Question ${i + 1} has images`);
+              const imgQ = imageQuestions[i];
+              const optionKeys = ['A', 'B', 'C', 'D'];
+              
+              const options = {
+                A: q.OptionA,
+                B: q.OptionB,
+                C: q.OptionC,
+                D: q.OptionD,
+              };
+              
+              optionKeys.forEach(key => {
+                const imgUrl = convertDriveLink(imgQ[`Option${key}`]);
+                const textOption = options[key];
+                console.log(`Option ${key} URL:`, imgUrl);
+                
+                if (imgUrl && textOption && textOption !== ".") {
+                  optsHTML += `
+                    <label class="image-label">
+                      <input type="radio" name="q${i}" value="${key}">
+                      <span style="font-weight: 600; margin-bottom: 8px;">${textOption}</span>
+                      <img src="${imgUrl}" class="option-image" alt="Option ${key}" loading="lazy">
+                    </label>
+                  `;
+                }
+              });
+            } else {
+              // Use text options
+              const options = {
+                A: q.OptionA,
+                B: q.OptionB,
+                C: q.OptionC,
+                D: q.OptionD,
+              };
+
+              optsHTML = Object.entries(options)
+                .filter(([key, value]) => value && value !== ".")
+                .map(
+                  ([key, value]) =>
+                    `<label><input type="radio" name="q${i}" value="${key}"> ${value}</label>`
+                )
+                .join("");
+            }
+
+            container.innerHTML += `
+              <div class="question-block">
+                <p>${i + 1}. ${q.Question}</p>
+                ${optsHTML}
+              </div>
+            `;
+          }
+        });
+
+        startTimer(timerMinutes);
+        quizStartTime = Date.now();
+      }
+
+      document
+        .getElementById("EmailForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const emailform = new FormData(e.target);
+          const title = emailform.get("title");
+
+          document.getElementById("EmailForm").classList.add("hidden");
+          document.getElementById("quizForm").classList.remove("hidden");
+          
+          loadQuestions(title);
+        });
+
+      document
+        .getElementById("quizForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearInterval(window.timerInterval);
+
+          const emailform = document.getElementById("EmailForm");
+          const name = emailform.querySelector('[name="name"]').value;
+          const email = emailform.querySelector('[name="email"]').value;
+          const mobile = emailform.querySelector('[name="mobile"]').value;
+          const title = emailform.querySelector('[name="title"]').value;
+          const timeofsubmission = new Date().toISOString();
+
+          const form = new FormData(e.target);
+          const answers = [];
+          let score = 0;
+          
+          questions.forEach((q, i) => {
+            if (form.has(`q${i}`)) {
+              const ans = form.get(`q${i}`);
+              answers.push(ans);
+              if (ans.toLowerCase() === q.CorrectAnswer.toLowerCase()) score++;
+            } else {
+              answers.push(0);
+            }
+          });
+          
+          const loadingDiv = document.getElementById("loading");
+          loadingDiv.classList.remove("hidden");
+          const quizEndTime = Date.now();
+          const timetakenMs = quizEndTime - quizStartTime;
+          const timetakenSeconds = Math.floor(timetakenMs / 1000);
+
+          await fetch(endpoint, {
+            method: "POST",
+            body: JSON.stringify({
+              type: "submitQuiz",
+              name,
+              email,
+              answers,
+              score,
+              title,
+              timeofsubmission,
+              timetaken: timetakenSeconds,
+              mobile,
+            }),
+          }).then(() => {
+            loadingDiv.classList.add("hidden");
+          });
+
+          document.getElementById("scoreMsg").textContent = `Your Answers has been recorded!`;
+          document.getElementById("quizForm").classList.add("hidden");
+          document.getElementById("paragraph").textContent = `Form was submitted successfully!`;
+        });
+
+      function startTimer(minutes) {
+        let seconds = minutes * 60;
+        const timerDisplay = document.getElementById("timerDisplay");
+
+        window.timerInterval = setInterval(() => {
+          const m = Math.floor(seconds / 60);
+          const s = seconds % 60;
+          timerDisplay.textContent = `Time Remaining: ${m}:${s
+            .toString()
+            .padStart(2, "0")}`;
+
+          if (seconds <= 0) {
+            clearInterval(window.timerInterval);
+            document.getElementById("quizForm").requestSubmit();
+          }
+          seconds--;
+        }, 1000);
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+          (e.ctrlKey && e.key.toLowerCase() === 'u') || 
+          (e.ctrlKey && e.key.toLowerCase() === 's') || 
+          (e.ctrlKey && e.key.toLowerCase() === 'p')
+        ) {
+          e.preventDefault();
+          return false;
+        }
+      });
+      
+      document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UPC Exams Portal</title>
+    <meta name="description" content="UPC Exams Portal">
+    <style>
+      :root {
+        --primary-color: #4a6bff;
+        --secondary-color: #f8f9fa;
+        --accent-color: #030303;
+        --text-color: #333;
+        --light-text: #6c757d;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: #f5f7ff;
+        padding: 20px;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+      }
+
+      button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #3a5bef;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #timerDisplay {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding: 10px;
+        background-color: #fff8f8;
+        border-radius: var(--border-radius);
+        color: var(--accent-color);
+        font-weight: bold;
+        border: 1px solid #ffdddd;
+      }
+
+      .question-block {
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--secondary-color);
+        border-radius: var(--border-radius);
+      }
+
+      .question-block p {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .question-image {
+        max-width: 100%;
+        max-height: 400px;
+        height: auto;
+        border-radius: var(--border-radius);
+        margin: 10px 0 15px 0;
+        display: block;
+      }
+
+      label {
+        display: block;
+        padding: 10px 15px;
+        margin-bottom: 8px;
+        background: white;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border: 1px solid #eee;
+      }
+
+      label:hover {
+        background-color: #f0f4ff;
+        border-color: var(--primary-color);
+      }
+
+      input[type="radio"] {
+        margin-right: 10px;
+      }
+
+      .option-image {
+        max-width: 100%;
+        max-height: 300px;
+        height: auto;
+        border-radius: var(--border-radius);
+        margin-top: 8px;
+        display: block;
+      }
+
+      .image-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+      }
+
+      .image-label input[type="radio"] {
+        margin-bottom: 8px;
+      }
+
+      #scoreMsg {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border-radius: var(--border-radius);
+        color: #2e7d32;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      #loading {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #fff3cd;
+        border-radius: var(--border-radius);
+        color: #664d03;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      .loader {
+        width: 15px;
+        height: 15px;
+        border: 3px solid #664d03;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-header p {
+        color: var(--light-text);
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        h2 {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="form-header">
+        <h2>UPC Exams Portal</h2>
+        <p id="paragraph">Test your knowledge</p>
+      </div>
+
+      <form id="EmailForm">
+        <input type="text" name="name" placeholder="الاسم بالكامل" required />
+        <input type="email" name="email" placeholder="ايميل المتحدة الرسمى" required />
+        <input type="text" name="mobile" placeholder="رقم الهاتف المحمول" required />
+
+        <select name="title" id="titleSelect" required>
+          <option value="">Loading titles...</option>
+        </select>
+
+        <button type="submit">Start Quiz</button>
+      </form>
+
+      <form id="quizForm" class="hidden">
+        <p id="timerDisplay"></p>
+        <div id="quizContainer"></div>
+        <button type="submit">Submit Answers</button>
+      </form>
+
+      <p id="scoreMsg"></p>
+      <p id="loading" class="hidden">
+        <span class="loader"></span>
+        Submitting your answers...
+      </p>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const titleSelect = document.getElementById("titleSelect");
+        const sheetURL =
+          "https://opensheet.elk.sh/160YyEbJmn-JLBDcJIqqmPzXLfEy5lAVK9rozPwY_0pw/Titles";
+
+        fetch(sheetURL)
+          .then((response) => response.json())
+          .then((data) => {
+            titleSelect.innerHTML = '<option value="">Select Title</option>';
+
+            data
+              .filter(
+                (row) => row.Status && row.Status.toLowerCase() === "active"
+              )
+              .forEach((row) => {
+                const option = document.createElement("option");
+                option.value = row.Title;
+                option.textContent = row.Title;
+                titleSelect.appendChild(option);
+              });
+          })
+          .catch((error) => {
+            console.error("Error fetching titles:", error);
+            titleSelect.innerHTML =
+              '<option value="">Failed to load titles</option>';
+          });
+      });
+
+      const Quiz_Questions =
+        "https://opensheet.elk.sh/160YyEbJmn-JLBDcJIqqmPzXLfEy5lAVK9rozPwY_0pw/";
+      const Quiz_Images =
+        "https://opensheet.elk.sh/1I955xVeNXE475qNgCawo5myxavEAy3rWce26H7iFfZI/";
+      const endpoint = "https://script.google.com/macros/s/AKfycbwsONdg4FsVwj5G_YBo6VpIsVB7gEb2NZGiDtncR1bHAqB7zWGPhyGLPPFP3mG7EbUA/exec";
+      
+      let questions = [];
+      let timerMinutes = 50;
+      let title = "";
+      let quizStartTime;
+
+      function convertDriveLink(url) {
+        if (!url || url === "." || url.trim() === "") return null;
+        
+        // Remove any underscores that might be wrapping the URL
+        url = url.replace(/_+/g, '').trim();
+        
+        if (!url || url === ".") return null;
+        
+        // Extract file ID from Google Drive URL
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+          const fileId = match[1];
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w600`;
+        }
+        
+        return null;
+      }
+
+      async function loadQuestions(selectedTitle) {
+        // Properly encode the title for URL
+        // Load text questions (works fine with non-breaking spaces)
+        const res = await fetch(`${Quiz_Questions}${selectedTitle}`);
+        questions = await res.json();
+        timerMinutes = parseInt(questions[0].Timer) || 50;
+        
+        // Try to load image questions - normalize title for this API
+        let imageQuestions = [];
+        try {
+          // Replace non-breaking spaces with regular spaces for the images API
+          const normalizedTitle = selectedTitle.replace(/\u00A0/g, ' ').replace(/\s+/g, ' ').trim();
+          const imageRes = await fetch(`${Quiz_Images}${normalizedTitle}`);
+          if (imageRes.ok) {
+            imageQuestions = await imageRes.json();
+            console.log("Image questions loaded:", imageQuestions);
+          }
+        } catch (error) {
+          console.log("No image sheet found for this title, using text only:", error);
+        }
+        // const encodedTitle = encodeURIComponent(selectedTitle);
+        
+        // // Load text questions
+        // const res = await fetch(`${Quiz_Questions}${encodedTitle}`);
+        // questions = await res.json();
+        // timerMinutes = parseInt(questions[0].Timer) || 50;
+        
+        // // Try to load image questions
+        // let imageQuestions = [];
+        // try {
+        //   const imageRes = await fetch(`${Quiz_Images}${encodedTitle}`);
+        //   if (imageRes.ok) {
+        //     imageQuestions = await imageRes.json();
+        //     console.log("Image questions loaded:", imageQuestions);
+        //   }
+        // } catch (error) {
+        //   console.log("No image sheet found for this title, using text only");
+        // }
+
+        const container = document.getElementById("quizContainer");
+        container.innerHTML = ""; // Clear previous content
+        
+        questions.forEach((q, i) => {
+          if (q.Question && q.Question.trim().length >= 3) {
+            let optsHTML = "";
+            let questionImageHTML = "";
+            
+            // Check if this specific question has images
+            const hasImagesForThisQuestion = imageQuestions[i] && 
+                                            imageQuestions[i].has_images && 
+                                            imageQuestions[i].has_images.toLowerCase() === "yes";
+            
+            // Check if the question itself has an image
+            if (hasImagesForThisQuestion && imageQuestions[i].Question) {
+              const questionImgUrl = convertDriveLink(imageQuestions[i].Question);
+              if (questionImgUrl) {
+                questionImageHTML = `<img src="${questionImgUrl}" class="question-image" alt="Question ${i + 1}" loading="lazy">`;
+              }
+            }
+            
+            if (hasImagesForThisQuestion) {
+              console.log(`Question ${i + 1} has images`);
+              const imgQ = imageQuestions[i];
+              const optionKeys = ['A', 'B', 'C', 'D'];
+              
+              const options = {
+                A: q.OptionA,
+                B: q.OptionB,
+                C: q.OptionC,
+                D: q.OptionD,
+              };
+              
+              // Check if options have images
+              let hasOptionImages = false;
+              optionKeys.forEach(key => {
+                const imgUrl = convertDriveLink(imgQ[`Option${key}`]);
+                if (imgUrl) hasOptionImages = true;
+              });
+              
+              if (hasOptionImages) {
+                // Display options with images
+                optionKeys.forEach(key => {
+                  const imgUrl = convertDriveLink(imgQ[`Option${key}`]);
+                  const textOption = options[key];
+                  console.log(`Option ${key} URL:`, imgUrl);
+                  
+                  if (imgUrl && textOption && textOption !== ".") {
+                    optsHTML += `
+                      <label class="image-label">
+                        <input type="radio" name="q${i}" value="${key}">
+                        <span style="font-weight: 600; margin-bottom: 8px;">${textOption}</span>
+                        <img src="${imgUrl}" class="option-image" alt="Option ${key}" loading="lazy">
+                      </label>
+                    `;
+                  } else if (textOption && textOption !== ".") {
+                    // Option has text but no image
+                    optsHTML += `<label><input type="radio" name="q${i}" value="${key}"> ${textOption}</label>`;
+                  }
+                });
+              } else {
+                // No option images, use text only
+                optsHTML = Object.entries(options)
+                  .filter(([key, value]) => value && value !== ".")
+                  .map(
+                    ([key, value]) =>
+                      `<label><input type="radio" name="q${i}" value="${key}"> ${value}</label>`
+                  )
+                  .join("");
+              }
+            } else {
+              // Use text options
+              const options = {
+                A: q.OptionA,
+                B: q.OptionB,
+                C: q.OptionC,
+                D: q.OptionD,
+              };
+
+              optsHTML = Object.entries(options)
+                .filter(([key, value]) => value && value !== ".")
+                .map(
+                  ([key, value]) =>
+                    `<label><input type="radio" name="q${i}" value="${key}"> ${value}</label>`
+                )
+                .join("");
+            }
+
+            container.innerHTML += `
+              <div class="question-block">
+                <p>${i + 1}. ${q.Question}</p>
+                ${questionImageHTML}
+                ${optsHTML}
+              </div>
+            `;
+          }
+        });
+
+        startTimer(timerMinutes);
+        quizStartTime = Date.now();
+      }
+
+      document
+        .getElementById("EmailForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const emailform = new FormData(e.target);
+          const title = emailform.get("title");
+
+          document.getElementById("EmailForm").classList.add("hidden");
+          document.getElementById("quizForm").classList.remove("hidden");
+          
+          loadQuestions(title);
+        });
+
+      document
+        .getElementById("quizForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearInterval(window.timerInterval);
+
+          const emailform = document.getElementById("EmailForm");
+          const name = emailform.querySelector('[name="name"]').value;
+          const email = emailform.querySelector('[name="email"]').value;
+          const mobile = emailform.querySelector('[name="mobile"]').value;
+          const title = emailform.querySelector('[name="title"]').value;
+          const timeofsubmission = new Date().toISOString();
+
+          const form = new FormData(e.target);
+          const answers = [];
+          let score = 0;
+          
+          questions.forEach((q, i) => {
+            if (form.has(`q${i}`)) {
+              const ans = form.get(`q${i}`);
+              answers.push(ans);
+              if (ans.toLowerCase() === q.CorrectAnswer.toLowerCase()) score++;
+            } else {
+              answers.push(0);
+            }
+          });
+          
+          const loadingDiv = document.getElementById("loading");
+          loadingDiv.classList.remove("hidden");
+          const quizEndTime = Date.now();
+          const timetakenMs = quizEndTime - quizStartTime;
+          const timetakenSeconds = Math.floor(timetakenMs / 1000);
+
+          await fetch(endpoint, {
+            method: "POST",
+            body: JSON.stringify({
+              type: "submitQuiz",
+              name,
+              email,
+              answers,
+              score,
+              title,
+              timeofsubmission,
+              timetaken: timetakenSeconds,
+              mobile,
+            }),
+          }).then(() => {
+            loadingDiv.classList.add("hidden");
+          });
+
+          document.getElementById("scoreMsg").textContent = `Your Answers has been recorded!`;
+          document.getElementById("quizForm").classList.add("hidden");
+          document.getElementById("paragraph").textContent = `Form was submitted successfully!`;
+        });
+
+      function startTimer(minutes) {
+        let seconds = minutes * 60;
+        const timerDisplay = document.getElementById("timerDisplay");
+
+        window.timerInterval = setInterval(() => {
+          const m = Math.floor(seconds / 60);
+          const s = seconds % 60;
+          timerDisplay.textContent = `Time Remaining: ${m}:${s
+            .toString()
+            .padStart(2, "0")}`;
+
+          if (seconds <= 0) {
+            clearInterval(window.timerInterval);
+            document.getElementById("quizForm").requestSubmit();
+          }
+          seconds--;
+        }, 1000);
+      }
+
+      document.addEventListener('keydown', function(e) {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C')) ||
+          (e.ctrlKey && e.key.toLowerCase() === 'u') || 
+          (e.ctrlKey && e.key.toLowerCase() === 's') || 
+          (e.ctrlKey && e.key.toLowerCase() === 'p')
+        ) {
+          e.preventDefault();
+          return false;
+        }
+      });
+      
+      document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+  </body>
+</html>
