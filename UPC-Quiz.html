@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UPC Exams Portal</title>
+    <meta name="description" content="UPC Exams Portal">
+    <style>
+      :root {
+        --primary-color: #4a6bff;
+        --secondary-color: #f8f9fa;
+        --accent-color: #030303;
+        --text-color: #333;
+        --light-text: #6c757d;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --warning-color: #ff9800;
+        --danger-color: #f44336;
+        --success-color: #4caf50;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text-color);
+        background-color: #f5f7ff;
+        padding: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h2 {
+        color: var(--primary-color);
+        text-align: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+      }
+
+      h3 {
+        color: var(--warning-color);
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .card {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      select {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: border-color 0.3s;
+      }
+
+      input[type="text"]:focus,
+      input[type="email"]:focus,
+      select:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+      }
+
+      button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        width: 100%;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #3a5bef;
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 1rem;
+      }
+
+      .button-group button {
+        flex: 1;
+      }
+
+      .btn-warning {
+        background-color: var(--warning-color);
+      }
+
+      .btn-warning:hover {
+        background-color: #e68900;
+      }
+
+      .btn-danger {
+        background-color: var(--danger-color);
+      }
+
+      .btn-danger:hover {
+        background-color: #d32f2f;
+      }
+
+      .btn-success {
+        background-color: var(--success-color);
+      }
+
+      .btn-success:hover {
+        background-color: #3d8b40;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      #timerDisplay {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        padding: 10px;
+        background-color: #fff8f8;
+        border-radius: var(--border-radius);
+        color: var(--accent-color);
+        font-weight: bold;
+        border: 1px solid #ffdddd;
+      }
+
+      .question-block {
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        background-color: var(--secondary-color);
+        border-radius: var(--border-radius);
+        position: relative;
+      }
+
+      .question-block.unanswered {
+        border-left: 4px solid var(--warning-color);
+        background-color: #fff8e1;
+      }
+
+      .question-block p {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+      }
+
+      .question-image {
+        max-width: 100%;
+        max-height: 300px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        display: block;
+      }
+
+      .option-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .option-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .option-image {
+        max-width: 150px;
+        max-height: 100px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        display: block;
+      }
+
+      label {
+        display: block;
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        background: white;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
+        border: 1px solid #eee;
+      }
+
+      label:hover {
+        background-color: #f0f4ff;
+        border-color: var(--primary-color);
+      }
+
+      input[type="radio"]:checked + label {
+        background-color: #e8f4ff;
+        border-color: var(--primary-color);
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      .option-with-image {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .option-text {
+        font-weight: 500;
+      }
+
+      #scoreMsg {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #e8f5e9;
+        border-radius: var(--border-radius);
+        color: #2e7d32;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      #loading {
+        text-align: center;
+        font-size: 1.2rem;
+        padding: 15px;
+        background-color: #fff3cd;
+        border-radius: var(--border-radius);
+        color: #664d03;
+        margin-top: 1rem;
+        font-weight: 600;
+      }
+
+      .loader {
+        width: 15px;
+        height: 15px;
+        border: 3px solid #664d03;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+
+      @keyframes rotation {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-header p {
+        color: var(--light-text);
+        margin-top: 0.5rem;
+      }
+
+      .error-message {
+        background-color: #fde8e8;
+        color: #c53030;
+        padding: 12px;
+        border-radius: var(--border-radius);
+        margin-bottom: 1rem;
+        text-align: center;
+        font-weight: 600;
+        border: 1px solid #fbb6b6;
+      }
+
+      .warning-message {
+        background-color: #fff3cd;
+        color: #856404;
+        padding: 15px;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+        border: 1px solid #ffeaa7;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        padding: 20px;
+      }
+
+      .modal {
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-content {
+        text-align: center;
+      }
+
+      .modal-icon {
+        font-size: 3rem;
+        color: var(--warning-color);
+        margin-bottom: 1rem;
+      }
+
+      .progress-info {
+        background-color: #e8f4ff;
+        padding: 12px;
+        border-radius: var(--border-radius);
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+        color: var(--primary-color);
+        border: 1px solid #cce5ff;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 15px;
+        }
+
+        .card {
+          padding: 1.5rem;
+        }
+
+        h2 {
+          font-size: 1.5rem;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .question-image {
+          max-height: 200px;
+        }
+
+        .option-image {
+          max-width: 120px;
+          max-height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="form-header">
+        <h2>UPC Exams Portal</h2>
+        <p id="paragraph">Test your knowledge</p>
+      </div>
+
+      <div id="errorMessage" class="hidden error-message"></div>
+      
+      <form id="EmailForm">
+        <input type="text" name="name" placeholder="الاسم بالكامل" required />
+        <input type="email" name="email" placeholder="ايميل المتحدة الرسمى" required />
+        <input type="text" name="mobile" placeholder="رقم الهاتف المحمول" required />
+
+        <select name="title" id="titleSelect" required>
+          <option value="">Loading titles...</option>
+        </select>
+
+        <button type="submit">Start Quiz</button>
+      </form>
+
+      <form id="quizForm" class="hidden">
+        <p id="timerDisplay"></p>
+        
+        <div id="progressInfo" class="hidden progress-info">
+          <span id="answeredCount">0</span> of <span id="totalQuestions">0</span> questions answered
+        </div>
+        
+        <div id="quizContainer"></div>
+        
+        <div class="button-group">
+          <button type="button" id="reviewBtn" class="btn-warning">
+            Review Unanswered Questions
+          </button>
+          <button type="submit" id="submitBtn">Submit Answers</button>
+        </div>
+      </form>
+
+      <p id="scoreMsg"></p>
+      <p id="loading" class="hidden">
+        <span class="loader"></span>
+        Submitting your answers...
+      </p>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="hidden modal-overlay">
+      <div class="modal">
+        <div class="modal-content">
+          <div class="modal-icon">⚠️</div>
+          <h3>Incomplete Quiz</h3>
+          <p id="unansweredCountText">You have not answered some questions.</p>
+          <p><strong>Are you sure you want to submit?</strong></p>
+          <div class="button-group" style="margin-top: 2rem;">
+            <button type="button" id="cancelSubmitBtn" class="btn-warning">Go Back & Answer</button>
+            <button type="button" id="confirmSubmitBtn" class="btn-danger">Submit Anyway</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const TITLES_SHEET_URL = "https://opensheet.elk.sh/1zq1ei3A6LcuUPp77WLl8hiP2MCdTHfbV2ScMF2cvzu0/Titles";
+      const QUIZ_QUESTIONS_URL = "https://opensheet.elk.sh/1zq1ei3A6LcuUPp77WLl8hiP2MCdTHfbV2ScMF2cvzu0/";
+      const WAVES_BASE_URL = "https://opensheet.elk.sh/1BfUO480KG_5RtpmPqi-NzIVi6rYlBqOcT15WTlcSNlc/";
+      const SUBMISSION_ENDPOINT = "https://script.google.com/macros/s/AKfycbye-lW5yVVimXgJyCfJ-GQcAv-r55XkdHpl7Gm_E81Pb1wPZV_eYMSWgeEklbNt_Om1/exec";
+      
+      let questions = []; // Questions displayed to user (shuffled)
+      let originalQuestions = []; // Valid questions in original order from spreadsheet
+      let timerMinutes = 50;
+      let quizStartTime;
+      let currentTitleData = null;
+      let unansweredQuestions = [];
+      
+      // This maps displayed question index to original question data
+      let questionMapping = [];
+      
+      // Fisher-Yates shuffle algorithm
+      function shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+      }
+
+      function convertToDirectImageUrl(url) {
+        if (!url || typeof url !== "string") return "";
+
+        url = url.replace(/_+/g, "").trim();
+
+        const match = url.match(/[-\w]{25,}/);
+        if (!match) return "";
+
+        const fileId = match[0];
+        return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
+      }
+
+      // Show error message
+      function showError(message) {
+        const errorDiv = document.getElementById("errorMessage");
+        errorDiv.textContent = message;
+        errorDiv.classList.remove("hidden");
+        setTimeout(() => {
+          errorDiv.classList.add("hidden");
+        }, 5000);
+      }
+
+      // Load titles from Google Sheet
+      async function loadTitles() {
+        try {
+          const response = await fetch(TITLES_SHEET_URL);
+          const data = await response.json();
+          const titleSelect = document.getElementById("titleSelect");
+          
+          titleSelect.innerHTML = '<option value="">Select Title</option>';
+          
+          const activeTitles = data.filter(row => 
+            row.Status && row.Status.toLowerCase() === "active"
+          );
+          
+          activeTitles.forEach(row => {
+            const option = document.createElement("option");
+            option.value = row.Title;
+            option.textContent = row.Title;
+            option.dataset.wave = row.Wave || "All";
+            titleSelect.appendChild(option);
+          });
+        } catch (error) {
+          console.error("Error fetching titles:", error);
+          titleSelect.innerHTML = '<option value="">Failed to load titles</option>';
+        }
+      }
+
+      // Check if user has access to the wave
+      async function checkWaveAccess(email, wave) {
+        if (!wave || wave.trim().toLowerCase() === "all") {
+          return true; // Open to all
+        }
+
+        try {
+          const waves = wave.split(',').map(w => w.trim());
+          
+          for (const waveName of waves) {
+            const waveUrl = `${WAVES_BASE_URL}${waveName}`;
+            const response = await fetch(waveUrl);
+            
+            if (!response.ok) {
+              console.warn(`Wave sheet not found: ${waveName}`);
+              continue;
+            }
+            
+            const waveData = await response.json();
+            
+            const emailExists = waveData.some(row => 
+              Object.values(row).some(value => 
+                value && value.toString().toLowerCase() === email.toLowerCase()
+              )
+            );
+            
+            if (emailExists) {
+              return true;
+            }
+          }
+          
+          return false;
+        } catch (error) {
+          console.error("Error checking wave access:", error);
+          return false;
+        }
+      }
+
+      // Check how many questions are answered
+      function checkAnsweredQuestions() {
+        const form = document.getElementById("quizForm");
+        const answeredCount = questions.reduce((count, q, i) => {
+          const radioInputs = form.querySelectorAll(`input[name="q${i}"]:checked`);
+          return count + (radioInputs.length > 0 ? 1 : 0);
+        }, 0);
+        
+        const totalQuestions = questions.length;
+        
+        document.getElementById("answeredCount").textContent = answeredCount;
+        document.getElementById("totalQuestions").textContent = totalQuestions;
+        
+        const progressInfo = document.getElementById("progressInfo");
+        if (totalQuestions > 0) {
+          progressInfo.classList.remove("hidden");
+        }
+        
+        highlightUnansweredQuestions();
+        
+        return { answered: answeredCount, total: totalQuestions };
+      }
+
+      // Highlight unanswered questions
+      function highlightUnansweredQuestions() {
+        const form = document.getElementById("quizForm");
+        unansweredQuestions = [];
+        
+        questions.forEach((q, i) => {
+          const questionBlock = document.querySelector(`.question-block:nth-child(${i + 1})`);
+          if (!questionBlock) return;
+          
+          const radioInputs = form.querySelectorAll(`input[name="q${i}"]:checked`);
+          
+          if (radioInputs.length === 0) {
+            questionBlock.classList.add("unanswered");
+            unansweredQuestions.push(i + 1);
+          } else {
+            questionBlock.classList.remove("unanswered");
+          }
+        });
+      }
+
+      // Scroll to first unanswered question
+      function scrollToFirstUnanswered() {
+        if (unansweredQuestions.length > 0) {
+          const firstUnanswered = document.querySelector(`.question-block:nth-child(${unansweredQuestions[0]})`);
+          if (firstUnanswered) {
+            firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            firstUnanswered.style.animation = 'none';
+            setTimeout(() => {
+              firstUnanswered.style.animation = 'pulse 1s';
+            }, 10);
+            
+            setTimeout(() => {
+              firstUnanswered.style.animation = '';
+            }, 1100);
+          }
+        }
+      }
+
+      // Filter valid questions (non-empty questions with at least 2 options)
+      function filterValidQuestions(rawQuestions) {
+        return rawQuestions.filter(q => {
+          // Check if question text exists and has minimum length
+          if (!q.Question || q.Question.trim().length < 3) return false;
+          
+          // Check if at least 2 options exist
+          const options = [
+            q.OptionA, q.OptionB, q.OptionC, q.OptionD
+          ].filter(opt => opt && opt.trim() !== '' && opt.trim() !== '.');
+          
+          return options.length >= 2;
+        });
+      }
+
+      // Prepare questions for display with proper mapping
+      function prepareQuestionsForDisplay(validQuestions) {
+        // Reset mapping
+        questionMapping = [];
+        
+        // Store original questions (these are already filtered)
+        originalQuestions = [...validQuestions];
+        
+        // Shuffle questions for display
+        const shuffledQuestions = shuffleArray(originalQuestions);
+        
+        // Create questions for display with shuffled options
+        const displayQuestions = shuffledQuestions.map((originalQ, displayIndex) => {
+          // Find original index
+          const originalIndex = originalQuestions.findIndex(q => 
+            (q.ID && q.ID === originalQ.ID) || 
+            q.Question === originalQ.Question
+          );
+          
+          // Get original options with their original letters
+          const originalOptions = [
+            { originalLetter: 'A', text: originalQ.OptionA, image: originalQ.OptionA_image },
+            { originalLetter: 'B', text: originalQ.OptionB, image: originalQ.OptionB_image },
+            { originalLetter: 'C', text: originalQ.OptionC, image: originalQ.OptionC_image },
+            { originalLetter: 'D', text: originalQ.OptionD, image: originalQ.OptionD_image }
+          ].filter(opt => opt.text && opt.text.trim() !== '' && opt.text !== '.');
+          
+          // Shuffle the options
+          const shuffledOptions = shuffleArray(originalOptions);
+          
+          // Create mapping from displayed letter to original letter
+          const optionMapping = {};
+          shuffledOptions.forEach((opt, position) => {
+            const displayedLetter = String.fromCharCode(65 + position); // A, B, C, D
+            optionMapping[displayedLetter] = opt.originalLetter;
+          });
+          
+          // Find what the displayed correct answer should be
+          const correctOriginalLetter = originalQ.CorrectAnswer;
+          let correctDisplayLetter = '';
+          
+          // Find which displayed letter corresponds to the original correct answer
+          for (const [displayLetter, originalLetter] of Object.entries(optionMapping)) {
+            if (originalLetter === correctOriginalLetter) {
+              correctDisplayLetter = displayLetter;
+              break;
+            }
+          }
+          
+          // Store mapping for this question
+          questionMapping[displayIndex] = {
+            originalIndex: originalIndex,
+            originalId: originalQ.ID || '',
+            originalCorrectAnswer: correctOriginalLetter,
+            displayedCorrectAnswer: correctDisplayLetter,
+            optionMapping: optionMapping
+          };
+          
+          // Create the display question
+          const displayQuestion = {
+            ID: originalQ.ID,
+            Question: originalQ.Question,
+            Question_image: originalQ.Question_image,
+            // Assign shuffled options to display letters A, B, C, D
+            OptionA: shuffledOptions[0]?.text || '',
+            OptionA_image: shuffledOptions[0]?.image || '',
+            OptionB: shuffledOptions[1]?.text || '',
+            OptionB_image: shuffledOptions[1]?.image || '',
+            OptionC: shuffledOptions[2]?.text || '',
+            OptionC_image: shuffledOptions[2]?.image || '',
+            OptionD: shuffledOptions[3]?.text || '',
+            OptionD_image: shuffledOptions[3]?.image || '',
+            CorrectAnswer: correctDisplayLetter,
+            Timer: originalQ.Timer
+          };
+          
+          return displayQuestion;
+        });
+        
+        return displayQuestions;
+      }
+
+      // Load questions for selected title
+      async function loadQuestions(title, wave) {
+        try {
+          const response = await fetch(`${QUIZ_QUESTIONS_URL}${title}`);
+          let rawQuestions = await response.json();
+          
+          if (!rawQuestions || rawQuestions.length === 0) {
+            throw new Error("No questions found for this title");
+          }
+          
+          timerMinutes = parseInt(rawQuestions[0].Timer) || 50;
+          
+          // Filter only valid questions
+          const validQuestions = filterValidQuestions(rawQuestions);
+          
+          if (validQuestions.length === 0) {
+            throw new Error("No valid questions found");
+          }
+          
+          // Prepare questions for display
+          questions = prepareQuestionsForDisplay(validQuestions);
+          
+          const container = document.getElementById("quizContainer");
+          container.innerHTML = "";
+          
+          questions.forEach((q, i) => {
+            // Options in display order (A, B, C, D)
+            const options = [
+              { key: 'A', text: q.OptionA, image: q.OptionA_image },
+              { key: 'B', text: q.OptionB, image: q.OptionB_image },
+              { key: 'C', text: q.OptionC, image: q.OptionC_image },
+              { key: 'D', text: q.OptionD, image: q.OptionD_image }
+            ].filter(opt => opt.text && opt.text.trim() !== '' && opt.text !== '.');
+            
+            const optsHTML = options.map(opt => {
+              const imageHtml = opt.image ? 
+                `<img src="${convertToDirectImageUrl(opt.image)}" class="option-image" alt="Option ${opt.key} image" onerror="this.style.display='none'">` : '';
+              
+              return `
+                <div class="option-container">
+                  <input type="radio" id="q${i}_${opt.key}" name="q${i}" value="${opt.key}">
+                  <label for="q${i}_${opt.key}" class="option-with-image">
+                    <span class="option-text">${opt.text}</span>
+                    ${imageHtml}
+                  </label>
+                </div>
+              `;
+            }).join("");
+
+            const questionImageHtml = q.Question_image ? 
+              `<img src="${convertToDirectImageUrl(q.Question_image)}" class="question-image" alt="Question image" onerror="this.style.display='none'">` : '';
+
+            container.innerHTML += `
+              <div class="question-block">
+                <p>${i + 1}. ${q.Question}</p>
+                ${questionImageHtml}
+                ${optsHTML}
+              </div>
+            `;
+          });
+          
+          // Add CSS for pulse animation
+          if (!document.querySelector('#pulse-animation')) {
+            const style = document.createElement('style');
+            style.id = 'pulse-animation';
+            style.textContent = `
+              @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.7); }
+                70% { box-shadow: 0 0 0 10px rgba(255, 152, 0, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(255, 152, 0, 0); }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+          
+          // Add event listeners to radio buttons to update progress
+          const radioButtons = container.querySelectorAll('input[type="radio"]');
+          radioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+              checkAnsweredQuestions();
+            });
+          });
+          
+          startTimer(timerMinutes);
+          quizStartTime = Date.now();
+          
+          setTimeout(() => {
+            checkAnsweredQuestions();
+          }, 100);
+        } catch (error) {
+          console.error("Error loading questions:", error);
+          showError("Failed to load quiz questions. Please try again.");
+        }
+      }
+
+      // Show confirmation modal for incomplete submission
+      function showConfirmationModal(unansweredCount) {
+        const modal = document.getElementById("confirmationModal");
+        const unansweredText = document.getElementById("unansweredCountText");
+        
+        if (unansweredCount === 1) {
+          unansweredText.textContent = `You have 1 unanswered question.`;
+        } else {
+          unansweredText.textContent = `You have ${unansweredCount} unanswered questions.`;
+        }
+        
+        modal.classList.remove("hidden");
+        document.body.style.overflow = 'hidden';
+      }
+
+      // Hide confirmation modal
+      function hideConfirmationModal() {
+        const modal = document.getElementById("confirmationModal");
+        modal.classList.add("hidden");
+        document.body.style.overflow = 'auto';
+      }
+
+      // Submit quiz answers
+      async function submitQuiz() {
+        clearInterval(window.timerInterval);
+        
+        const emailForm = document.getElementById("EmailForm");
+        const name = emailForm.querySelector('[name="name"]').value;
+        const email = emailForm.querySelector('[name="email"]').value;
+        const mobile = emailForm.querySelector('[name="mobile"]').value;
+        const title = currentTitleData?.title || "";
+        const timeofsubmission = new Date().toISOString();
+        
+        const form = document.getElementById("quizForm");
+        
+        // Initialize arrays for answers in ORIGINAL order
+        const answersInOriginalOrder = new Array(originalQuestions.length).fill(0);
+        let score = 0;
+        const wrongAnswerIds = [];
+        
+        // Process each displayed question
+        questions.forEach((q, displayIndex) => {
+          const selectedRadio = form.querySelector(`input[name="q${displayIndex}"]:checked`);
+          const mapping = questionMapping[displayIndex];
+          
+          if (!mapping) return;
+          
+          const originalIndex = mapping.originalIndex;
+          
+          if (selectedRadio) {
+            // User selected an answer
+            const displayedAnswer = selectedRadio.value; // A, B, C, or D as displayed
+            
+            // Convert displayed answer to original answer using the optionMapping
+            const originalAnswer = mapping.optionMapping[displayedAnswer];
+            
+            // Store in original order
+            answersInOriginalOrder[originalIndex] = originalAnswer;
+            
+            // Check if correct
+            const isCorrect = displayedAnswer === mapping.displayedCorrectAnswer;
+            
+            if (isCorrect) {
+              score++;
+            } else {
+              // Wrong answer - add ID
+              if (mapping.originalId) {
+                wrongAnswerIds.push(mapping.originalId);
+              }
+            }
+          } else {
+            // No answer selected - store as 0
+            answersInOriginalOrder[originalIndex] = 0;
+            
+            // Count as wrong answer
+            if (mapping.originalId) {
+              wrongAnswerIds.push(mapping.originalId);
+            }
+          }
+        });
+        
+        const loadingDiv = document.getElementById("loading");
+        loadingDiv.classList.remove("hidden");
+        
+        const quizEndTime = Date.now();
+        const timetakenMs = quizEndTime - quizStartTime;
+        const timetakenSeconds = Math.floor(timetakenMs / 1000);
+        
+        // Debug logging
+        console.log('Original questions count:', originalQuestions.length);
+        console.log('Displayed questions count:', questions.length);
+        console.log('Answers in original order:', answersInOriginalOrder);
+        console.log('Score:', score);
+        console.log('Wrong answer IDs:', wrongAnswerIds);
+        
+        try {
+          const response = await fetch(SUBMISSION_ENDPOINT, {
+            method: "POST",
+            body: JSON.stringify({
+              type: "submitQuiz",
+              name,
+              email,
+              answers: answersInOriginalOrder,
+              score,
+              title,
+              timeofsubmission,
+              timetaken: timetakenSeconds,
+              mobile,
+wrongAnswers: wrongAnswerIds
+  .sort((a, b) => Number(a) - Number(b))
+  .join(',')
+            }),
+          });
+          
+          const result = await response.json();
+          
+          loadingDiv.classList.add("hidden");
+          
+          if (result.status === "success") {
+            document.getElementById("scoreMsg").textContent = `Your answers have been recorded!`;
+            document.getElementById("quizForm").classList.add("hidden");
+            document.getElementById("paragraph").textContent = "Form was submitted successfully!";
+          } else {
+            showError("Failed to submit answers. Please try again.");
+          }
+        } catch (error) {
+          console.error("Error submitting quiz:", error);
+          showError("Failed to submit answers. Please try again.");
+          loadingDiv.classList.add("hidden");
+        }
+      }
+
+      // Event listener for email form submission
+      document.getElementById("EmailForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        const form = e.target;
+        const name = form.name.value.trim();
+        const email = form.email.value.trim();
+        const mobile = form.mobile.value.trim();
+        const title = form.title.value;
+        const wave = form.title.selectedOptions[0]?.dataset.wave || "All";
+        
+        currentTitleData = { title, wave };
+        
+        const hasAccess = await checkWaveAccess(email, wave);
+        
+        if (!hasAccess) {
+          showError("Access denied. You are not authorized to take this quiz.");
+          return;
+        }
+        
+        document.getElementById("EmailForm").classList.add("hidden");
+        document.getElementById("quizForm").classList.remove("hidden");
+        
+        await loadQuestions(title, wave);
+      });
+
+      // Event listener for quiz submission button
+      document.getElementById("submitBtn").addEventListener("click", (e) => {
+        e.preventDefault();
+        
+        const progress = checkAnsweredQuestions();
+        const unansweredCount = progress.total - progress.answered;
+        
+        if (unansweredCount > 0) {
+          showConfirmationModal(unansweredCount);
+        } else {
+          submitQuiz();
+        }
+      });
+
+      // Event listener for review button
+      document.getElementById("reviewBtn").addEventListener("click", () => {
+        checkAnsweredQuestions();
+        if (unansweredQuestions.length > 0) {
+          scrollToFirstUnanswered();
+        } else {
+          showError("All questions have been answered!");
+        }
+      });
+
+      // Event listener for cancel submit button
+      document.getElementById("cancelSubmitBtn").addEventListener("click", () => {
+        hideConfirmationModal();
+        if (unansweredQuestions.length > 0) {
+          scrollToFirstUnanswered();
+        }
+      });
+
+      // Event listener for confirm submit button
+      document.getElementById("confirmSubmitBtn").addEventListener("click", () => {
+        hideConfirmationModal();
+        submitQuiz();
+      });
+
+      // Timer function
+      function startTimer(minutes) {
+        let seconds = minutes * 60;
+        const timerDisplay = document.getElementById("timerDisplay");
+        
+        window.timerInterval = setInterval(() => {
+          const m = Math.floor(seconds / 60);
+          const s = seconds % 60;
+          timerDisplay.textContent = `Time Remaining: ${m}:${s.toString().padStart(2, "0")}`;
+          
+          if (seconds <= 0) {
+            clearInterval(window.timerInterval);
+            const progress = checkAnsweredQuestions();
+            const unansweredCount = progress.total - progress.answered;
+            
+            if (unansweredCount > 0) {
+              showError("Time's up! Your quiz has been automatically submitted.");
+            }
+            submitQuiz();
+          }
+          seconds--;
+        }, 1000);
+      }
+
+      document.addEventListener('contextmenu', e => e.preventDefault());
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", loadTitles);
+    </script>
+  </body>
+</html>
